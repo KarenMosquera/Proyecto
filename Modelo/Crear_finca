@@ -1,0 +1,34 @@
+<?php 
+include("conexion.php");
+session_start();
+
+if (isset($_POST['Registrarfinca'])) {
+    if (!empty($_POST['NombreFinca'])) {
+        $NombreFinca = mysqli_real_escape_string($conex, trim($_POST['NombreFinca']));
+
+
+        // Consulta para verificar si el correo ya está registrado
+        $consulta_verificar = "SELECT * FROM finca WHERE Nombre = '$NombreFinca'";
+        $resultado_verificar = mysqli_query($conex, $consulta_verificar);
+
+        if (mysqli_num_rows($resultado_verificar) > 0) {
+            // Si el correo ya existe
+            echo "<script>alert('Este nombre de finca ya existe');</script>";
+        } else {
+            // Registrar finca
+
+            $consulta = "INSERT INTO finca (Nombre, Rol) VALUES ('$NombreFinca', 1)";
+            $resultado = mysqli_query($conex, $consulta);
+
+            if ($resultado) {
+                echo "<script>alert('Finca registrada correctamente')
+                window.location.href='Servicios.php';</script>";
+            } else {
+                echo "<script>alert('Algo salió mal. Inténtelo de nuevo.');</script>";
+            }
+        }
+    } else {
+        echo "<script>alert('Por favor, complete todos los campos.');</script>";
+    }
+}
+?>

@@ -1,0 +1,65 @@
+<?php
+
+require_once("/xampp/htdocs/Proyecto/views.Ingresos_Egresos.php");
+
+class Controller_ingresos  {
+    private $Ingresos;
+
+    public function registrarIngreso($Nombre, $Cantidad, $Descripcion, $Observaciones) {
+        // Validamos que los campos no estén vacíos
+        if (!empty($Nombre) && !empty($Cantidad) && !empty($Descripcion) && !empty($Observaciones)) {
+            $resultado = $this->Ingresos->registrar_Ingreso($Nombre, $Cantidad, $Descripcion, $Observaciones);
+
+            if ($resultado) {
+                return '<h3 class="ok">Ingreso registrado correctamente</h3>';
+            } else {
+                return '<h3 class="error">Error al registrar Ingreso</h3>';
+            }
+        } else {
+            return '<h3 class="error">Por favor, complete todos los campos</h3>';
+        }
+    }
+}
+
+class Controller_egresos  {
+    private $Egresos;
+
+    public function registrarEgreso($Nombre, $Cantidad, $Descripcion, $Observaciones) {
+        // Validamos que los campos no estén vacíos
+        if (!empty($Nombre) && !empty($Cantidad) && !empty($Descripcion) && !empty($Observaciones)) {
+            $resultado = $this->Egresos->registrar_Ingreso($Nombre, $Cantidad, $Descripcion, $Observaciones);
+
+            if ($resultado) {
+                return '<h3 class="ok">Egreso registrado correctamente</h3>';
+            } else {
+                return '<h3 class="error">Error al registrar Egreso</h3>';
+            }
+        } else {
+            return '<h3 class="error">Por favor, complete todos los campos</h3>';
+        }
+    }
+}
+
+if (isset($_POST['Ingresos'])) {
+    $username = mysqli_real_escape_string($db, $_POST['Nombre']);
+    $username = mysqli_real_escape_string($db, $_POST['Cantidad']);
+    $username = mysqli_real_escape_string($db, $_POST['Descripcion']);
+    $username = mysqli_real_escape_string($db, $_POST['Observaciones']);
+   
+    // Comprobar si el nombre de usuario es válido
+    $query = "SELECT * FROM users WHERE Nombre='$username'";
+    $results = mysqli_query($db, $query);
+}
+
+if (isset($_POST['Egresos'])) {
+    $username = mysqli_real_escape_string($db, $_POST['Nombre']);
+    $username = mysqli_real_escape_string($db, $_POST['Cantidad']);
+    $username = mysqli_real_escape_string($db, $_POST['Descripcion']);
+    $username = mysqli_real_escape_string($db, $_POST['Observaciones']);
+   
+    // Comprobar si el nombre de usuario es válido
+    $query = "SELECT * FROM users WHERE Nombre='$username'";
+    $results = mysqli_query($db, $query);
+}
+
+?>
